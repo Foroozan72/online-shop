@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_headers %}
+<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+ {% endblock %}
+
+{% block content %}
+    <h3> foroozan khanooooom khoda hast , khoda dooset dare ...  </h3>
+    <h3> khodaya dooset daram </h3>
+
+    {% for product in products %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <a href="{{ product.get_absolute_url }}" class="card-title"> {{ product.name }} </a>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+      </div>
+    {% endfor %}
+{% endblock %}

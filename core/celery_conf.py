@@ -4,7 +4,7 @@ import os
 
 os.environ.setdefault('DJANGO-SETTINGS-MODULE' , 'core.settings')
 
-celery_app = Celery('A')
+celery_app = Celery('core')
 celery_app.autodiscover_tasks()
 
 

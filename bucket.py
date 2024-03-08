@@ -5,6 +5,10 @@ class Bucket:
     """CDN Bucket manager
 
     init method creates conn
+
+    Note:
+        None of these Method are async. use public interface in task.py modules instead.
+
     """
 
     def __init__(self):
@@ -18,6 +22,13 @@ class Bucket:
 
     def get_objects(self):
         result = self.conn.list_objects_v2(Bucket=settings.AWS_STORAGE_BUCKET_NAME)
-        return result
-        
+        if result['KeyCount']:
+            return result['Contents']
+        else:
+            None
+
+    def delete_object(self , key):
+        self.conn.delete_object(Bucket=settings.AWS_STORAGE_BUCKET_NAME , Key =key)
+        return True
+
 bucket = Bucket()

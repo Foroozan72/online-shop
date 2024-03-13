@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404
 from . import tasks
 from django.contrib import messages
 
+
+
 # Create your views here.
 
 class HomeView(View):
@@ -34,5 +36,12 @@ class Delete_obj_BucketView(View):
           tasks.delete_object_task.delay(key)
           messages.success(request , 'your object delete after a wihle')
           return redirect('home:bucket')
+
+
+class DownloadBucketObject(View):
+	def get(self, request, key):
+		tasks.download_object_task.delay(key)
+		messages.success(request, 'your download will start soon.', 'info')
+		return redirect('home:bucket')
 
           

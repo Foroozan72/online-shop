@@ -4,6 +4,7 @@ from .models import Product
 from django.shortcuts import get_object_or_404 
 from . import tasks
 from django.contrib import messages
+from utils import IsAdminUserMixin
 
 
 
@@ -22,7 +23,7 @@ class ProductDetailView(View):
         return render(request , 'home/detail.html' , {'product':product})
     
 
-class BucketView(View):
+class BucketView(IsAdminUserMixin , View):
         template_name = 'home/bucket.html'
         def get(self, request):
             objects = tasks.all_bucket_objects_task()
@@ -30,7 +31,7 @@ class BucketView(View):
             return render(request , self.template_name , {'objects' : objects} )
 
 
-class Delete_obj_BucketView(View):
+class Delete_obj_BucketView(IsAdminUserMixin , View):
      
      def get(self,request ,key):
           tasks.delete_object_task.delay(key)
@@ -38,7 +39,7 @@ class Delete_obj_BucketView(View):
           return redirect('home:bucket')
 
 
-class DownloadBucketObject(View):
+class DownloadBucketObject(IsAdminUserMixin , View):
 	def get(self, request, key):
 		tasks.download_object_task.delay(key)
 		messages.success(request, 'your download will start soon.', 'info')
